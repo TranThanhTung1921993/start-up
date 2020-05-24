@@ -48,6 +48,7 @@ export const actions = {
         service.getDetails(
             { placeId: state.userPlace.userPlaceId },
             (result, status) => {
+                console.log(result)
                 console.log(result.formatted_address)
                 commit('SET_USER_PLACE', {
                     ...state.userPlace,

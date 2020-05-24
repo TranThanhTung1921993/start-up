@@ -1,5 +1,5 @@
 <template>
-    <v-card light dark>
+    <v-card light raised width="95%">
         <v-toolbar light dense>
             <v-app-bar-nav-icon class="hidden-sm-and-down" />
             <v-text-field
@@ -14,14 +14,20 @@
                 @keyup.enter="onClickPrediction(predictions[0])"
                 @click:append="onClickPrediction(predictions[0])"
             />
-            <v-divider vertical inset />
+            <v-divider vertical inset class="mx-1" dark></v-divider>
             <v-btn icon color="primary">
                 <v-icon>
                     {{ userSearchValue ? 'mdi-close' : 'mdi-crosshairs-gps' }}
                 </v-icon>
             </v-btn>
         </v-toolbar>
-        <v-list v-show="predictions.length" rounded light>
+        <v-list
+            v-show="predictions.length"
+            rounded
+            light
+            dense
+            max-width="350px"
+        >
             <v-list-item-group>
                 <v-list-item
                     v-for="(prediction, key) in predictions"
@@ -56,6 +62,13 @@ export default {
         predictions: (state) => state.map.predictions,
         userPlace: (state) => state.map.userPlace
     }),
+    watch: {
+        userPlace(newValue, oldValue) {
+            if (newValue.address !== oldValue.address) {
+                this.userSearchValue = newValue.address
+            }
+        }
+    },
     methods: {
         getPredictions(input) {
             this.$store.dispatch('map/getPredictions', input)
@@ -67,7 +80,6 @@ export default {
                     userPlaceId: prediction.place_id
                 })
                 await this.$store.commit('map/SET_PREDICTIONS', [])
-                this.userSearchValue = this.userPlace.address
             }
         }
     }
