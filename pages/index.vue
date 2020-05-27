@@ -151,36 +151,47 @@
                             </v-tab-item>
                             <v-tab-item>
                                 <v-slide-group class="pa-4" show-arrows>
-                                    <v-slide-item>
+                                    <v-slide-item
+                                        v-for="(category, key) in categories"
+                                        :key="key"
+                                        v-slot:default="{ active, toggle }"
+                                    >
                                         <v-card
+                                            elevation="8"
                                             class="ma-4"
-                                            height="100"
-                                            width="100"
+                                            height="160"
+                                            width="130"
+                                            color="blue-grey lighten-5"
+                                            @click="toggle"
                                         >
-                                        </v-card>
-                                    </v-slide-item>
-                                    <v-slide-item>
-                                        <v-card
-                                            class="ma-4"
-                                            height="100"
-                                            width="100"
-                                        >
-                                        </v-card>
-                                    </v-slide-item>
-                                    <v-slide-item>
-                                        <v-card
-                                            class="ma-4"
-                                            height="100"
-                                            width="100"
-                                        >
-                                        </v-card>
-                                    </v-slide-item>
-                                    <v-slide-item>
-                                        <v-card
-                                            class="ma-4"
-                                            height="100"
-                                            width="100"
-                                        >
+                                            <v-img
+                                                width="130"
+                                                height="100"
+                                                class="white--text align-center"
+                                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                                :src="category.url"
+                                            >
+                                                <v-row
+                                                    class="full-height"
+                                                    align="center"
+                                                    justify="center"
+                                                >
+                                                    <v-scale-transition>
+                                                        <v-icon
+                                                            v-if="active"
+                                                            color="white"
+                                                            size="40"
+                                                        >
+                                                            mdi-close-circle-outline
+                                                        </v-icon>
+                                                    </v-scale-transition>
+                                                </v-row>
+                                            </v-img>
+                                            <v-card-subtitle
+                                                class="black--text"
+                                            >
+                                                {{ category.title }}
+                                            </v-card-subtitle>
                                         </v-card>
                                     </v-slide-item>
                                 </v-slide-group>
@@ -219,6 +230,33 @@ export default {
     data() {
         return {
             searchModes: ['By Keyword', 'By Category'],
+            categories: [
+                {
+                    url:
+                        'https://salt.tikicdn.com/ts/category/90/78/11/b8a67fe010361551e515fdcca7709f69.png',
+                    title: 'Thể Thao - Dã Ngoại'
+                },
+                {
+                    url:
+                        'https://salt.tikicdn.com/ts/category/70/52/b1/31587960ac1eb915a86a5a8202da583a.png',
+                    title: 'Điện Tử - Điện Lạnh'
+                },
+                {
+                    url:
+                        'https://salt.tikicdn.com/ts/category/66/15/4f/6282e8c6655cb87cb226e3b701bb9137.png',
+                    title: 'Đồ Chơi - Mẹ & Bé'
+                },
+                {
+                    url:
+                        'https://salt.tikicdn.com/ts/category/dd/51/92/e6bc22b5ec0d6d965a93f056b7776493.png',
+                    title: 'Thời Trang'
+                },
+                {
+                    url:
+                        'https://salt.tikicdn.com/ts/category/b3/2b/72/8e7b4b703653050ffc79efc8ee017bd0.png',
+                    title: 'Điện Gia Dụng'
+                }
+            ],
             showSearchOptions: true
         }
     }
