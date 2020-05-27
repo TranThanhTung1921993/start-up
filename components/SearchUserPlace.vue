@@ -1,7 +1,7 @@
 <template>
     <v-card light raised width="95%">
         <v-toolbar light dense>
-            <v-app-bar-nav-icon class="hidden-sm-and-down" />
+            <v-app-bar-nav-icon class="hidden-sm-and-down"/>
             <v-text-field
                 v-model="userSearchValue"
                 hide-details
@@ -50,40 +50,41 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-export default {
-    name: 'SearchUserPlace',
-    data() {
-        return {
-            userSearchValue: ''
-        }
-    },
-    computed: mapState({
-        predictions: (state) => state.map.predictions,
-        userPlace: (state) => state.map.userPlace
-    }),
-    watch: {
-        userPlace(newValue, oldValue) {
-            if (newValue.address !== oldValue.address) {
-                this.userSearchValue = newValue.address
+    import { mapState } from 'vuex'
+
+    export default {
+        name: 'SearchUserPlace',
+        data() {
+            return {
+                userSearchValue: ''
             }
-        }
-    },
-    methods: {
-        getPredictions(input) {
-            this.$store.dispatch('map/getPredictions', input)
         },
-        async onClickPrediction(prediction) {
-            if (prediction && prediction.place_id) {
-                this.$store.commit('map/SET_USER_PLACE', {
-                    ...this.userPlace,
-                    userPlaceId: prediction.place_id
-                })
-                await this.$store.commit('map/SET_PREDICTIONS', [])
+        computed: mapState({
+            predictions: (state) => state.map.predictions,
+            userPlace: (state) => state.map.userPlace
+        }),
+        watch: {
+            userPlace(newValue, oldValue) {
+                if (newValue.address !== oldValue.address) {
+                    this.userSearchValue = newValue.address
+                }
+            }
+        },
+        methods: {
+            getPredictions(input) {
+                this.$store.dispatch('map/getPredictions', input)
+            },
+            async onClickPrediction(prediction) {
+                if (prediction && prediction.place_id) {
+                    this.$store.commit('map/SET_USER_PLACE', {
+                        ...this.userPlace,
+                        userPlaceId: prediction.place_id
+                    })
+                    await this.$store.commit('map/SET_PREDICTIONS', [])
+                }
             }
         }
     }
-}
 </script>
 
 <style scoped></style>
